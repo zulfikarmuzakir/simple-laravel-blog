@@ -44,7 +44,7 @@ class CategoryController extends Controller
       $category->name = $request->name;
       $category->save();
 
-      return redirect()->back()->with('success', 'Berhasil menambahkan Category '.$request->name);
+      return redirect()->back()->with('success', 'Add category '.$request->name.' successfully');
   }
 
     /**

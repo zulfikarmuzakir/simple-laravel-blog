@@ -44,18 +44,24 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email'=> 'required|email'
+            'email'=> 'required|email',
+            'username' => 'required'
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt('password')
+            'username' => $request->username,
+            'password' => bcrypt('password'),
         ]);
 
         $profile = Profile::create([
             'user_id' => $user->id,
-            'avatar' => 'uploads/avatars/profile.png'
+            'avatar' => 'uploads/avatars/profile.png',
+            'twitter' => 'https://twitter.com',
+            'facebook' => 'https://facebook.com',
+            'instagram' => 'https://instagram.com',
+            
         ]);
 
         return redirect()->route('users');
@@ -120,7 +126,7 @@ class UsersController extends Controller
         $user->admin = 1;
         $user->save();
 
-        return redirect()->back()->with('success', 'Successfully changed user permission.');
+        return redirect()->back()->with('success', 'Successfully changed user permission');
     }
 
     public function not_admin($id)
@@ -130,6 +136,6 @@ class UsersController extends Controller
         $user->admin = 0;
         $user->save();
 
-        return redirect()->back()->with('success', 'Successfully changed user permission.');
+        return redirect()->back()->with('success', 'Successfully changed user permission');
     }
 }

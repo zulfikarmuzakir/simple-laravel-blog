@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@700&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.bg-custom {
+  background-color: #fff;
+  border-bottom: 1px solid black;
+}
+
+.custom-brand {
+  font-family: 'PT Sans Narrow', sans-serif;
+  font-size: 40px;
+}
+
+.slide-title {
+  background-color: rgba(22,33,62,0.8);
+}
+
+.sun-mode {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.moon-mode {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.btn-custom {
+  background-color: #000;
+  color: #fff;
+}

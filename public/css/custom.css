@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+body {
+	background-color: #ffffff;
+}
+
+.a-custom {
+	color: black;
+}
+
+.a-custom:hover {
+	color: red;
+}
+
+.custom-img {
+	box-shadow: 15px 15px 25px grey;
+	width: 100%;
+	height: 75vh;
+	object-fit: cover;
+}
+
+.nopost {
+	height: 50vh;
+}
+
+.img-profile {
+	width: 200px;
+	height: 100%;
+	object-fit: cover;
+}
+

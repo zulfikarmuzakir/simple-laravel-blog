@@ -17,7 +17,7 @@
 				<input type="text" name="title" class="form-control">
 			</div>
 			<div class="form-group">
-				<label for="featured">Featured Image</label>
+				<label for="featured">Thumbnail</label>
 				<input type="file" name="featured" class="form-control">
 			</div>
 			<div class="form-group">
@@ -40,7 +40,6 @@
 				@endforeach
 			</div>
 			<div class="form-group">
-				<label for="content">Content</label>
 				<textarea name="content" id="summernote" cols="5" rows="5" class="form-control"></textarea>
 			</div>
 			<div class="form-group">
@@ -61,11 +60,25 @@
 
 @push('scripts')
 <script src="{{ asset('summernote/summernote-bs4.min.js') }}"></script>
+<script src="{{ asset('js/summernote-ext-codewrapper.js') }}"></script>
 <script>
+
 	$('#summernote').summernote({
-        placeholder: 'Start writing..',
-        tabsize: 2,
-        height: 500
-      });
+  		toolbar: [
+    // [groupName, [list of button]]
+    	['style', ['bold', 'italic', 'underline', 'clear']],
+    	['font', ['strikethrough', 'superscript', 'subscript']],
+    	['fontsize', ['fontsize']],
+    	['color', ['color']],
+    	['para', ['ul', 'ol', 'paragraph']],
+		['table', ['table']],
+    	['height', ['height']],
+		['insert', ['link', 'picture', 'video', 'gxcode']],
+		['view', ['fullscreen', 'codeview', 'help']],
+	],
+	popatmouse: true,
+	height: 500,
+	placeholder: 'Start writing....'
+});
 </script>
 @endpush

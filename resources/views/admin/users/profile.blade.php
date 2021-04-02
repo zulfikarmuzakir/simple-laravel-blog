@@ -13,8 +13,12 @@
 		<form action="{{ route('user.profile.update') }}" method="POST" enctype="multipart/form-data">
 			@csrf
 			<div class="form-group">
-				<label for="name">Username</label>
+				<label for="name">Name</label>
 				<input type="text" name="name" value="{{ $user->name }}" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="name">Username</label>
+				<input type="text" name="username" value="{{ $user->username }}" class="form-control">
 			</div>
 			<div class="form-group">
 				<label for="name">Email</label>
@@ -39,10 +43,6 @@
 			<div class="form-group">
 				<label for="name">Instagram</label>
 				<input type="text " name="instagram" value="{{ $user->profile->instagram }}" class="form-control">
-			</div>
-			<div class="form-group">
-				<label for="name">About</label>
-				<textarea name="about" id="about" cols="70" rows="6">{{ $user->profile->about }}</textarea>
 			</div>
 			<div class="form-group">
 				<div class="text-center">

@@ -17,7 +17,7 @@
 				<input type="text" name="title" class="form-control" value="{{ $post->title }}">
 			</div>
 			<div class="form-group">
-				<label for="featured">Featured Image</label>
+				<label for="featured">Thumbnail</label>
 				<input type="file" name="featured" class="form-control">
 			</div>
 			<div class="form-group">
@@ -50,8 +50,7 @@
 					@endforeach
 				</div>
 				<div class="form-group">
-					<label for="content">Content</label>
-					<textarea name="content" id="content" cols="5" rows="5" class="form-control">{{ $post->content }}</textarea>
+					<textarea name="content" id="summernote" cols="5" rows="5" class="form-control">{{ $post->content }}</textarea>
 				</div>
 				<div class="form-group">
 					<div class="text-center">
@@ -63,4 +62,34 @@
 			</form>
 		</div>
 	</div>
-	@endsection
+</div>
+@endsection
+
+@push('styles')
+<link href="{{ asset('summernote/summernote-bs4.min.css') }}" rel="stylesheet">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('summernote/summernote-bs4.min.js') }}"></script>
+<script src="{{ asset('js/summernote-ext-codewrapper.js') }}"></script>
+<script>
+
+	$('#summernote').summernote({
+  		toolbar: [
+    // [groupName, [list of button]]
+    	['style', ['bold', 'italic', 'underline', 'clear']],
+    	['font', ['strikethrough', 'superscript', 'subscript']],
+    	['fontsize', ['fontsize']],
+    	['color', ['color']],
+    	['para', ['ul', 'ol', 'paragraph']],
+		['table', ['table']],
+    	['height', ['height']],
+		['insert', ['link', 'picture', 'video', 'gxcode']],
+		['view', ['fullscreen', 'codeview', 'help']],
+	],
+	popatmouse: true,
+	height: 500,
+	placeholder: 'Start writing....'
+});
+</script>
+@endpush

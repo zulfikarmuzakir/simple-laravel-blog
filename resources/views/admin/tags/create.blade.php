@@ -6,7 +6,7 @@
 
 <div class="card">
 	<div class="card-header">
-		Tag
+		Create new tag
 	</div>
 
 	<div class="card-body">

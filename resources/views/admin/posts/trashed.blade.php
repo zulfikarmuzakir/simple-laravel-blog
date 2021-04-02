@@ -30,8 +30,31 @@
 					<td>
 						<a href="{{ route('post.restore', ['id' => $post->id]) }}" class="btn btn-warning btn-sm">Restore</a>
 					</td>
+
 					<td>
-						<a href="{{ route('post.kill', ['id' => $post->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+						<div class="modal fade" tabindex="-1" id="myModal">
+							<div class="modal-dialog">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title">Delete Post</h5>
+								  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								  </button>
+								</div>
+								<div class="modal-body">
+								  <p>Are you sure you want to delete this post permanently?</p>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+								  <a href="{{ route('post.kill', ['id' => $post->id]) }}" class="btn btn-danger">Delete</a>
+								</div>
+							  </div>
+							</div>
+						</div>
+						<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
+							Delete
+						  </button>
+						
 					</td>
 				</tr>
 				@endforeach

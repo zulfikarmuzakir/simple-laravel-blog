@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Post;
-Use App\Models\Tag;
+use App\Models\Tag;
+use Path\To\DOMDocument;
+use Intervention\Image\ImageManagerStatic as Image;
+use Auth;
 
 class PostController extends Controller
 {
@@ -17,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('admin.posts.index')->with('posts', Post::all());
+        return view('admin.posts.index')->with('posts', Post::orderBy('created_at', 'desc')->get());
     }
 
     /**
@@ -56,6 +59,34 @@ class PostController extends Controller
             'tags' => 'required'
         ]);
 
+        $storage = "storage/content";
+        $dom = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($request->content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NOIMPLIED);
+        libxml_clear_errors();
+        $images=$dom->getElementsByTagName('img');
+        foreach ($images as $img) {
+            $src = $img->getAttribute('src');
+            if (preg_match('/data:image/', $src)) {
+                preg_match('/data:image\/(?<mime>.*?);/', $src, $groups);
+                $mimetype = $groups['mime'];
+                $fileNameContent=uniqid();
+                $fileNameContentRand = substr(md5($fileNameContent),6,6).'_'.time();
+                $filepath =("$storage/$fileNameContentRand.$mimetype");
+                $image = Image::make($src)
+                                        ->resize(1200, null, function ($constraint) {
+                                            $constraint->aspectRatio();
+                                        })
+                                        ->encode($mimetype, 100)
+                                        ->save(public_path($filepath));
+
+                $new_src = asset($filepath);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $new_src);
+                $img->setAttribute('class', 'img-responsive');
+            }
+        }
+
         $featured = $request->featured;
 
         $featured_new_name = time().$featured->getClientOriginalName();
@@ -64,10 +95,13 @@ class PostController extends Controller
 
         $post = Post::create([
             'title' => $request->title,
-            'content' => $request->content,
+            // 'content' => $request->content,
+            'content' =>$dom->saveHTML(), 
             'featured' => 'uploads/posts/' . $featured_new_name,
             'category_id' => $request->category_id,
-            'slug' =>  Str::of($request->title)->slug('-')
+            'slug' =>  Str::of($request->title)->slug('-'),
+            'user_id' => Auth::id(),
+            'views' => 0
         ]); 
         $post->tags()->attach($request->tags);
 
@@ -115,6 +149,34 @@ class PostController extends Controller
             'category_id' => 'required'
         ]);
 
+        $storage = "storage/content";
+        $dom = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($request->content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NOIMPLIED);
+        libxml_clear_errors();
+        $images=$dom->getElementsByTagName('img');
+        foreach ($images as $img) {
+            $src = $img->getAttribute('src');
+            if (preg_match('/data:image/', $src)) {
+                preg_match('/data:image\/(?<mime>.*?);/', $src, $groups);
+                $mimetype = $groups['mime'];
+                $fileNameContent=uniqid();
+                $fileNameContentRand = substr(md5($fileNameContent),6,6).'_'.time();
+                $filepath =("$storage/$fileNameContentRand.$mimetype");
+                $image = Image::make($src)
+                                        ->resize(1200, null, function ($constraint) {
+                                            $constraint->aspectRatio();
+                                        })
+                                        ->encode($mimetype, 100)
+                                        ->save(public_path($filepath));
+
+                $new_src = asset($filepath);
+                $img->removeAttribute('src');
+                $img->setAttribute('src', $new_src);
+                $img->setAttribute('class', 'img-responsive');
+            }
+        }
+
         $post = Post::find($id);
 
         if ($request->hasFile('featured')) {
@@ -128,7 +190,7 @@ class PostController extends Controller
         }
 
         $post->title = $request->title;
-        $post->content = $request->content;
+        $post->content = $dom->saveHTML();
         $post->category_id = $request->category_id;
 
         $post->save();
@@ -149,9 +211,10 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+        
         $post->delete();
 
-        return redirect()->back()->with('success', 'Post dipindahkan ke tempat sampah');
+        return redirect()->back()->with('success', 'Post trashed');
     }
 
     public function trashed()

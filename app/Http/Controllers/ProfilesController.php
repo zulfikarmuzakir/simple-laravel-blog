@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Models\User;
+use Hash;
 
 class ProfilesController extends Controller
 {
@@ -72,12 +74,15 @@ class ProfilesController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email',
+            'username' => 'required',
             'facebook' => 'required|url',
             'twitter' => 'required|url',
             'instagram' => 'required|url',
         ]);
 
+
         $user = Auth::user();
+        $user_profiles = User::all();
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->avatar;
@@ -92,23 +97,31 @@ class ProfilesController extends Controller
         }
 
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->email = $request->email;     
+        $user->username = $request->username;
         $user->profile->facebook = $request->facebook;
         $user->profile->twitter = $request->twitter;
         $user->profile->instagram = $request->instagram;
-        // dd($request->all());
+
+        $user->password = bcrypt($request->password);
+        // dd($user->password);
+
+        // if ($request->password == 0) {
+        //     $user->password = $user->password;
+        // } else {
+        //     $user->password = bcrypt($request->password);
+        // }
+
         $user->save();
         $user->profile->save();
-
-        if ($request->has('password')) {
-            $user->password = bcrypt($request->password);
-        }
+        
 
         return redirect()->back()->with('success', 'Profile updated');
 
 
     }
 
+   
     /**
      * Remove the specified resource from storage.
      *

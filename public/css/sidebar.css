@@ -1,0 +1,27 @@
+body {
+    overflow-x: hidden;
+}
+
+li a{
+    color: rgb(207, 202, 202);
+    text-decoration: none;
+}
+
+.custom-side {
+    position: sticky;
+    top: 0;
+    left: 1;
+    margin-top: -55px;
+    height: 100vh;
+    overflow-y: scroll;
+    z-index: 1;
+}
+
+.text-menu {
+    color: #fff;
+}
+
+.hidden-side {
+    background-color: #262626;
+    height: 100vh;
+}

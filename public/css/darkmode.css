@@ -1,0 +1,43 @@
+#darkmode {
+    background-color: #1a1a2e;
+    color: white;
+}
+
+#darkmode nav {
+    background-color: #1a1a2e;
+    color: white;
+}
+
+#darkmode .title-brand {
+    color: white;
+}
+
+#darkmode .nav-item a{
+    background-color: #1a1a2e;
+    color: white;
+}
+
+#darkmode .search-form {
+    background-color: #1a1a2e;
+}
+
+#darkmode .btn-custom {
+    background-color: #0f3460;
+}
+
+#darkmode .card {
+    background-color: #16213e !important;
+    color: white;
+}
+
+#darkmode .content-custom {
+    color: white !important;
+}
+
+#darkmode .icon-profile {
+    color: white;
+}
+
+#darkmode .comment-custom {
+    color: white;
+}
